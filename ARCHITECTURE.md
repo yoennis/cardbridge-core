@@ -206,6 +206,7 @@ cardbridge/
 ├── HARDWARE.md             Reference hardware configurations and BOM
 ├── COMPATIBILITY.md        Tested and expected device compatibility
 ├── ADAPTERS.md             Guide for building custom adapters
+├── INTEGRATIONS.md         Integration patterns with external applications
 ├── SECURITY.md             Security model and configuration
 └── examples/               Minimal adapter implementations
 ```

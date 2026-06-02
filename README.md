@@ -26,20 +26,16 @@ lab equipment, and more.
 
 ---
 
-## Built with CardBridge Core
+## Reference implementation
 
-| Product | Vertical | Adapter |
-|---------|----------|---------|
-| [CardBridge](https://cardbridge.io) | Drones, action cams, trail cams | `usbmass`, `wifisd` |
+[CardBridge](https://cardbridge.io) is the consumer product built on this core —
+drones, action cams, and trail cams via USB and SD reader.
 
-**Potential use cases** (same adapter pattern, different file types):
+## Integration patterns
 
-| Vertical | What the adapter reads | File types |
-|----------|----------------------|-----------|
-| CPAP therapy data | ResMed / Philips SD card via USB reader | `.edf`, `.csv`, `.dat` |
-| Trail camera management | Any SD card reader | `.jpg`, `.mp4` |
-| Field data loggers | USB or SD data logger | `.csv`, `.bin` |
-| 3D printer file sync | OctoPrint-adjacent, USB storage | `.gcode`, `.3mf` |
+The adapter interface works for any device that writes files to USB or SD storage.
+See [INTEGRATIONS.md](INTEGRATIONS.md) for documented patterns, including how
+CardBridge Core can interoperate with existing device-specific applications.
 
 Building something? [See the adapter guide →](ADAPTERS.md)
 
