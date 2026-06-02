@@ -197,17 +197,22 @@ poller.Start()
 
 ---
 
-## Real-world case: CPAP data sync
+## Example use case: CPAP therapy data sync
 
-CardBridge Core was adapted to sync CPAP therapy data (ResMed AirSense, Philips DreamStation)
-by a third-party developer. The adapter reads from the device's SD card (inserted into a USB
-reader) and extracts `.edf` and `.csv` files instead of video.
+CardBridge Core's adapter pattern maps directly to medical device data sync.
+A CPAP machine (ResMed AirSense, Philips DreamStation) writes therapy data to an SD card.
+The workflow:
 
-The only changes needed:
-1. Extend `VideoExtensions` → include `.edf`, `.csv`, `.dat`
-2. The storage scanner already handles any file extension — the filter is the only gate
+1. SD card → USB reader → CardBridge hub
+2. `usbmass` adapter detects the card as a mounted volume
+3. The scanner walks the directory and picks up `.edf` / `.csv` files
+4. Files appear in the local dashboard — no cloud, no account required
 
-This took ~2 hours of integration work on top of CardBridge Core.
+The only change needed from the default setup:
+1. Extend the file extension list to include `.edf`, `.csv`, `.dat`
+2. The storage scanner handles any extension — the filter is the only gate
+
+This is the same pattern as the `usb-camera` example — only the file types differ.
 
 ---
 

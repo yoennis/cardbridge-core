@@ -28,12 +28,18 @@ lab equipment, and more.
 
 ## Built with CardBridge Core
 
-CardBridge Core is the engine behind multiple local sync products:
-
 | Product | Vertical | Adapter |
 |---------|----------|---------|
 | [CardBridge](https://cardbridge.io) | Drones, action cams, trail cams | `usbmass`, `wifisd` |
-| HMS CPAP | CPAP therapy data (ResMed, Philips) | `usbmass` (SD card reader) |
+
+**Potential use cases** (same adapter pattern, different file types):
+
+| Vertical | What the adapter reads | File types |
+|----------|----------------------|-----------|
+| CPAP therapy data | ResMed / Philips SD card via USB reader | `.edf`, `.csv`, `.dat` |
+| Trail camera management | Any SD card reader | `.jpg`, `.mp4` |
+| Field data loggers | USB or SD data logger | `.csv`, `.bin` |
+| 3D printer file sync | OctoPrint-adjacent, USB storage | `.gcode`, `.3mf` |
 
 Building something? [See the adapter guide →](ADAPTERS.md)
 

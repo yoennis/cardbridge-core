@@ -65,17 +65,25 @@ USB-A→USB-C cable         $ 6
 ```
 > Multiple devices at once. Lector SD para los que no soportan USB Mass Storage.
 
-### Tier 3 — CardBridge Dash (~$87 BOM)
+### Tier 3 — CardBridge Dash (~$87 BOM) — experimental
 ```
 Everything in Tier 2      $64
 ezShare WiFi microSD 32GB $23
 ```
-> SD se queda dentro de la dashcam para siempre.
-> Sync completamente automático sin tocar nada.
+> **Experimental.** The WiFi SD card stays in the camera — no SD removal.
+> Sync happens post-recording (after the camera stops writing).
+> Real-time sync during active recording is **not guaranteed** due to power delivery
+> constraints and I/O contention on the card's NAND. Validate with your specific camera
+> model before building a product on this tier.
 
 ---
 
-## In-car installation (dashcam use case)
+## In-car installation (dashcam — experimental)
+
+> **Note:** USB sync requires the dashcam to be powered off or idle (not actively recording).
+> WiFi SD sync via ezShare works post-recording. Real-time sync while driving is experimental
+> and depends on camera model. See [COMPATIBILITY.md](COMPATIBILITY.md) for tested devices.
+
 
 Mount the CardBridge unit behind the dashboard or in the glovebox:
 
