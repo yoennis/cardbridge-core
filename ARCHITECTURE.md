@@ -200,9 +200,12 @@ cardbridge/
 │   ├── app/                App Router pages
 │   └── components/         Nav, Hero, Pricing, FAQ…
 │
-├── .github/workflows/ci.yml   Go + frontend + landing CI
-├── README.md
+├── .github/workflows/ci.yml   Go + TypeScript CI
+├── README.md               Project overview and quick start
 ├── ARCHITECTURE.md         ← this file
-├── HARDWARE.md             BOM, sourcing, per-tier parts
-└── PRODUCT.md              Tiers, Stripe structure, landing page spec
+├── HARDWARE.md             Reference hardware configurations and BOM
+├── COMPATIBILITY.md        Tested and expected device compatibility
+├── ADAPTERS.md             Guide for building custom adapters
+├── SECURITY.md             Security model and configuration
+└── examples/               Minimal adapter implementations
 ```

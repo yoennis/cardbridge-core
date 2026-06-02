@@ -233,4 +233,4 @@ can write files there and they'll be indexed automatically.
 ## Questions and integrations
 
 If you're building on CardBridge Core and want to discuss architecture, open an issue or
-reach out directly. See [PRODUCT.md](PRODUCT.md) for the "Built with CardBridge Core" program.
+reach out directly — open an issue or email via the contact in the README.

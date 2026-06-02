@@ -84,13 +84,18 @@ hardware. Entries marked **Expected** are based on protocol/spec — unverified 
 
 ## CPAP / medical devices
 
+CPAP machines write therapy data (`.edf`, `.csv`) to SD cards using the same filesystem
+structure that CardBridge Core already handles. The `usbmass` adapter works unchanged —
+only the file extension filter needs adjusting for non-video file types.
+
 | Device | Connection | Adapter | Status | Notes |
 |--------|-----------|---------|--------|-------|
-| ResMed AirSense 10/11 | SD card → USB reader | usbmass | Tested* | *Via CardBridge Core (HMS CPAP project) |
-| Philips DreamStation | SD card → USB reader | usbmass | Tested* | *Via CardBridge Core (HMS CPAP project) |
+| ResMed AirSense 10/11 | SD card → USB reader | usbmass | Expected | EDF/CSV files — extend `VideoExtensions` to include `.edf`, `.csv` |
+| Philips DreamStation | SD card → USB reader | usbmass | Expected | Same pattern as ResMed |
 
-> These devices were validated as part of an external project built on CardBridge Core.
-> See ["Built with CardBridge Core"](PRODUCT.md) for context.
+> **Note:** These entries are based on the known SD card structure of each device.
+> Neither device has been tested against this specific codebase.
+> If you test one, please open an issue with your results.
 
 ---
 

@@ -1,105 +1,91 @@
-# CardBridge — Hardware Guide
+# Hardware Guide
 
-## Raspberry Pi Zero 2W — the compute unit
-
-The Pi Zero 2W is the only supported compute unit for now. It has:
-- ARM Cortex-A53 quad-core 64-bit @ 1 GHz, 512 MB RAM
-- 802.11 b/g/n WiFi (brcmfmac driver — supports virtual `uap0` interface for dual WiFi)
-- Bluetooth 4.2 / BLE
-- One micro-USB port (OTG capable — acts as USB host or device)
-- microSD slot (for Pi OS — **not** for footage)
-
-**Where to buy:**
-- [raspberrypi.com](https://raspberrypi.com/products/raspberry-pi-zero-2-w/) — official, sometimes out of stock
-- Adafruit (US): adafruit.com
-- SparkFun (US): sparkfun.com
-- Micro Center (US): usually has stock in-store
-- Amazon
-
-**Stock warning:** The Zero 2W has historically had stock issues. Check multiple vendors.
-
-### Alternative: Orange Pi Zero 2W (~$15–20)
-Similar hardware, usually better availability. The dual WiFi (virtual `uap0`) needs to be
-verified on whatever kernel ships with the OS image. Worth testing before committing to it.
-
-### Alternative: Raspberry Pi 4 Model B (~$35–55)
-More powerful, excellent stock, but physically larger. Suitable for a
-"desktop" or "always-on home hub" product variant.
+Reference configurations for running CardBridge Core on a Raspberry Pi.
+These are examples — adapt to your specific device and use case.
 
 ---
 
-## Bill of materials per unit
+## Compute unit — Raspberry Pi Zero 2W
+
+The recommended compute unit for single-device or embedded deployments.
+
+- ARM Cortex-A53 quad-core 64-bit @ 1 GHz, 512 MB RAM
+- 802.11 b/g/n WiFi (brcmfmac — supports virtual `uap0` for dual WiFi mode)
+- One micro-USB port (OTG capable — USB host or device)
+- microSD slot (for the OS — not for device footage)
+
+**Where to buy:** raspberrypi.com, Adafruit, SparkFun, Micro Center, Amazon.
+Stock can be limited — check multiple vendors.
+
+### Alternatives
+
+| Board | Notes |
+|-------|-------|
+| Orange Pi Zero 2W (~$15–20) | Better availability. Verify dual WiFi (`uap0`) on your kernel. |
+| Raspberry Pi 4 (~$35–55) | More powerful, larger form factor. Good for desktop/always-on builds. |
+| Any ARM64 Linux board | As long as it supports USB OTG and WiFi, the firmware runs unchanged. |
+
+---
+
+## Component reference
 
 | Part | Spec | Approx. cost | Notes |
 |------|------|-------------|-------|
-| Raspberry Pi Zero 2W | — | $15 | See above |
-| microSD (Pi OS) | 16–32 GB, Class 10 / A1 | $7–10 | Samsung EVO Select or SanDisk Ultra A1 |
-| Powered USB OTG hub | micro-USB OTG input + USB-C/barrel power input + 2–4× USB-A | $10–15 | Must have **separate** power input. Ugreen and Waveshare make Pi-compatible models. Search "micro USB OTG hub powered separate power" |
+| Raspberry Pi Zero 2W | — | $15 | |
+| microSD (OS) | 16–32 GB, Class 10 / A1 | $7–10 | Samsung EVO Select or SanDisk Ultra A1 |
+| Powered USB OTG hub | micro-USB OTG in + separate power + 2–4× USB-A | $10–15 | Must have separate power input. Ugreen and Waveshare make Pi-compatible models. |
 | USB-C power supply | 5 V / 3 A | $8–10 | Standard phone charger works |
-| USB SD card reader | USB-A, supports microSD + full SD | $6–8 | Any UHS-I reader |
-| USB-A → USB-C cable 30 cm | — | $5–6 | For drones / GoPro / USB-C cameras |
-| ezShare WiFi microSD | 32 GB | $20–25 | Amazon: search "ezShare WiFi microSD". Used when SD stays inside the device |
-| Case (optional) | Pi Zero form factor | $5–8 | 3D-printed or off-shelf |
+| USB SD card reader | USB-A, microSD + full SD | $6–8 | Any UHS-I reader |
+| USB-A → USB-C cable (30 cm) | — | $5–6 | For drones / GoPro / USB-C cameras |
+| ezShare WiFi microSD | 32 GB | $20–25 | For the experimental `wifisd` adapter |
 
 ---
 
-## Per-tier BOM
+## Example configurations
 
-### Tier 1 — CardBridge Go (~$43 BOM)
-```
-Pi Zero 2W          $15
-microSD (Pi OS)     $ 8
-USB OTG Y-splitter  $ 6   ← single-port, powers Pi and connects ONE USB device
-USB-C charger       $ 8
-USB-A→USB-C cable   $ 6
-```
-> Y-splitter instead of a full hub: one leg powers the Pi, the other is a USB-A host port.
-> Simplest possible setup — plug the drone/GoPro directly, sync, unplug.
-
-### Tier 2 — CardBridge (~$64 BOM)
-```
-Everything in Tier 1      $43
-Powered USB hub (4-port)  $12   ← replaces Y-splitter
-USB SD card reader        $ 7   ← for devices without USB storage mode
-USB-A→USB-C cable         $ 6
-```
-> Multiple devices at once. Lector SD para los que no soportan USB Mass Storage.
-
-### Tier 3 — CardBridge Dash (~$87 BOM) — experimental
-```
-Everything in Tier 2      $64
-ezShare WiFi microSD 32GB $23
-```
-> **Experimental.** The WiFi SD card stays in the camera — no SD removal.
-> Sync happens post-recording (after the camera stops writing).
-> Real-time sync during active recording is **not guaranteed** due to power delivery
-> constraints and I/O contention on the card's NAND. Validate with your specific camera
-> model before building a product on this tier.
-
----
-
-## In-car installation (dashcam — experimental)
-
-> **Note:** USB sync requires the dashcam to be powered off or idle (not actively recording).
-> WiFi SD sync via ezShare works post-recording. Real-time sync while driving is experimental
-> and depends on camera model. See [COMPATIBILITY.md](COMPATIBILITY.md) for tested devices.
-
-
-Mount the CardBridge unit behind the dashboard or in the glovebox:
+### Minimal — single USB device
 
 ```
-[Fuse box / always-on 12V] → [USB car adapter 5V/3A] → [CardBridge]
-                                                               │
-                                                         USB hub
-                                                               │
-                                                    [Dashcam — short cable]
+Pi Zero 2W
++ USB OTG Y-splitter    ($6)  ← one leg powers Pi, one is USB-A host
++ USB-C charger         ($8)
++ USB-A → USB-C cable   ($6)
+─────────────────────────────
+BOM ~$35
 ```
 
-- Power from a **switched** fuse (turns off with the car) or **always-on** fuse depending on preference.
-- At home: Pi auto-connects to home WiFi → clips appear in app.
-- On the road: Pi broadcasts `CardBridge` AP → connect phone directly.
+Plug one drone, GoPro, or action cam via USB. Sync, unplug.
+No SD reader, no multi-device support — simplest possible setup.
 
-**Recommended USB car adapters:** Anker PowerDrive Speed 2 or similar (look for ≥ 3 A on at least one port).
+### Multi-device — USB hub + SD reader
+
+```
+Pi Zero 2W
++ Powered USB hub (2–4 port)   ($12)  ← replaces Y-splitter
++ USB SD card reader           ($7)   ← for cameras without USB storage mode
++ USB-C charger                ($8)
++ Cables                       ($6)
+─────────────────────────────────────
+BOM ~$48
+```
+
+Connect multiple devices simultaneously. SD reader handles cameras that
+don't support USB Mass Storage mode (most trail cams, some action cams).
+
+### WiFi SD — experimental
+
+```
+Multi-device configuration above    (~$48)
++ ezShare WiFi microSD 32 GB        ($23)
+─────────────────────────────────────────
+BOM ~$71
+```
+
+> **Experimental.** The WiFi SD card stays in the camera — no SD removal needed.
+> Sync happens **after recording stops**. Real-time sync during active recording
+> is not guaranteed due to power delivery constraints and I/O contention.
+> Validate with your specific camera before building a product on this pattern.
+> See [COMPATIBILITY.md](COMPATIBILITY.md) for the experimental adapter details.
 
 ---
 
@@ -108,9 +94,16 @@ Mount the CardBridge unit behind the dashboard or in the glovebox:
 | Region | Best options |
 |--------|-------------|
 | USA | Amazon, Adafruit, SparkFun, Micro Center |
-| Mexico / LATAM | Amazon MX, MercadoLibre, importación directa de AliExpress |
+| Mexico / LATAM | Amazon MX, MercadoLibre, AliExpress (longer shipping) |
 | Europe | The Pi Hut (UK), BerryBase (DE), Amazon EU |
-| Global | AliExpress (longer shipping, lower cost — good for OTG hubs and cables) |
+| Global | AliExpress — OTG hubs, cables, SD readers are significantly cheaper |
 
-**AliExpress tip:** The OTG hub, USB cables, SD reader, and ezShare card are all significantly
-cheaper on AliExpress if 3–4 week shipping is acceptable.
+---
+
+## Power budget
+
+The Pi Zero 2W draws ~350 mA at idle, up to ~600 mA under load.
+A USB device in active transfer draws an additional 100–500 mA depending on type.
+
+**Minimum:** 5 V / 2 A supply with a powered hub (hub provides power to devices separately).
+A Y-splitter without a powered hub risks brownouts when a device is active.
