@@ -1,0 +1,24 @@
+# Go
+firmware/vendor/
+firmware/*.exe
+firmware/*.test
+firmware/bin/
+firmware/web/dist/
+*.db
+
+# Node / React
+app/node_modules/
+app/dist/
+app/.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Secrets
+.env
+*.env

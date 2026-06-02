@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    @apply bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-white;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  * {
+    @apply border-slate-200 dark:border-slate-800;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-slate-900 dark:text-white;
+  }
+  label {
+    @apply text-slate-700 dark:text-slate-200;
+  }
+  input, textarea, select {
+    @apply text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { @apply bg-transparent; }
+::-webkit-scrollbar-thumb { @apply rounded-full bg-slate-300 dark:bg-slate-700; }
+
+/* Setup gate gradients */
+.setup-gate-bg {
+  background: radial-gradient(ellipse 100% 55% at 50% 0%, #0f172a 0%, #020617 100%);
+}
+.setup-gate-glow {
+  background: radial-gradient(ellipse 70% 40% at 50% -10%, rgba(99,102,241,0.08) 0%, transparent 70%);
+}
+.setup-gate-icon-glow {
+  background: radial-gradient(circle, #6366f1 0%, transparent 70%);
+}
+.setup-gate-headline {
+  background: linear-gradient(to bottom, #fff 30%, #94a3b8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
