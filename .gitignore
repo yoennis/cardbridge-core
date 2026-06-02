@@ -3,7 +3,8 @@ firmware/vendor/
 firmware/*.exe
 firmware/*.test
 firmware/bin/
-firmware/web/dist/
+firmware/web/dist/*
+!firmware/web/dist/.gitkeep
 *.db
 
 # Node / React
